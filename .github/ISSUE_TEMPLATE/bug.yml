@@ -1,0 +1,25 @@
+name: Bug
+description: Something behaves wrongly or breaks
+title: "fix(<scope>): "
+labels: [bug]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: What's wrong
+      description: Observed behaviour vs. expected.
+    validations:
+      required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Evidence
+      description: Commands, output, logs, versions. Redact hostnames, IPs, emails and tokens.
+      render: text
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+      description: The observable result that closes this issue.
+    validations:
+      required: true

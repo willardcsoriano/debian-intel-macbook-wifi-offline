@@ -1,0 +1,50 @@
+name: Issue labeler
+
+# Free, deterministic issue classification: labels each issue from its
+# Conventional Commits title (fix -> bug, feat -> enhancement, scope ->
+# area:<scope>, ...).  Logic and its table tests live in
+# .github/scripts/label-issue{,.test}.sh.  No LLM, no secrets.  A record, not
+# a gate: nothing is blocked on these labels.
+
+on:
+  issues:
+    types: [opened, edited, reopened]
+  pull_request:
+    paths:
+      - '.github/scripts/label-issue*.sh'
+      - '.github/workflows/issue-labeler.yml'
+
+jobs:
+  label:
+    # Edits to the body alone don't change the classification.
+    if: >-
+      github.event_name == 'issues' &&
+      (github.event.action != 'edited' || github.event.changes.title.from != null)
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      issues: write
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          sparse-checkout: .github/scripts
+      - name: Label from title
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          # Passed through env, never interpolated into the script: an issue
+          # title is attacker-controlled text.
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          ISSUE_TITLE: ${{ github.event.issue.title }}
+          ISSUE_OLD_TITLE: ${{ github.event.changes.title.from }}
+          ISSUE_ACTION: ${{ github.event.action }}
+        run: bash .github/scripts/label-issue.sh
+
+  test:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v7
+      - run: bash .github/scripts/label-issue.test.sh

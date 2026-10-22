@@ -1,0 +1,22 @@
+// markdownlint rules for this repo, read by the Markdownlint PR Review
+// workflow and by local runs (npx markdownlint-cli2 README.md).
+// Pure layout rules are off: these READMEs are long-form prose with
+// hard-wrapped lines and unlabelled shell blocks, and flagging that on
+// every PR would bury the findings that matter, such as broken in-page
+// links (MD051) and vague link text (MD059).
+{
+  "config": {
+    "default": true,
+    "MD013": false, // line length
+    "MD022": false, // blank lines around headings
+    "MD031": false, // blank lines around fences
+    "MD032": false, // blank lines around lists
+    "MD034": false, // bare URLs
+    "MD040": false, // fenced code language
+    "MD060": false  // table column style
+  },
+  // The PR template is pre-filled PR body text, not a document: it opens
+  // with "Closes #" on purpose, so MD041 (first line is a heading) does
+  // not apply to it.
+  "ignores": [".github/pull_request_template.md"]
+}

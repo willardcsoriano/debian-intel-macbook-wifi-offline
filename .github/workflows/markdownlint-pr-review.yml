@@ -1,0 +1,51 @@
+name: Markdownlint PR Review
+
+# Free, deterministic review for a docs-only repo: runs markdownlint-cli2
+# against every changed Markdown file and posts the result as a COMMENT
+# review from github-actions[bot]. Never APPROVE: GitHub refuses APPROVE
+# reviews from the default Actions token. A record, not a merge gate: no
+# branch protection or required check depends on it. Rules live in
+# .markdownlint-cli2.jsonc so a local run gives the same result.
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - name: Run markdownlint on changed Markdown files
+        env:
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+        run: |
+          set -o pipefail
+          git fetch origin "$BASE_REF" --depth=1
+          CHANGED=$(git diff --name-only --diff-filter=d "origin/$BASE_REF...HEAD" -- '*.md' || true)
+          if [ -z "$CHANGED" ]; then
+            echo "No Markdown files changed in this PR." > review.md
+          else
+            # markdownlint-cli2 exits non-zero when it finds issues; the
+            # findings are the review, not a failure of this step.
+            FINDINGS=$(echo "$CHANGED" | xargs -d '\n' npx --yes markdownlint-cli2@0.23.3 2>&1 \
+              | grep -E '^[^ ].*:[0-9]+(:[0-9]+)? (error|warning) ' || true)
+            if [ -z "$FINDINGS" ]; then
+              { echo "markdownlint found no issues in:"; echo "$CHANGED" | sed 's/^/- `/; s/$/`/'; } > review.md
+            else
+              { echo "## markdownlint results"; echo; echo '```'; echo "$FINDINGS"; echo '```'; } > review.md
+            fi
+          fi
+
+      - name: Post as a GitHub review
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+        run: gh pr review "$PR_NUMBER" --comment --body-file review.md

@@ -1,0 +1,23 @@
+name: Feature
+description: New capability or improvement
+title: "feat(<scope>): "
+labels: [enhancement]
+body:
+  - type: textarea
+    id: need
+    attributes:
+      label: Need
+      description: The problem this solves, and why now.
+    validations:
+      required: true
+  - type: textarea
+    id: approach
+    attributes:
+      label: Approach
+      description: Proposed design and the trade-offs considered.
+  - type: textarea
+    id: done
+    attributes:
+      label: Done when
+    validations:
+      required: true
