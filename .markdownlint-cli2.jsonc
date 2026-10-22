@@ -14,5 +14,9 @@
     "MD034": false, // bare URLs
     "MD040": false, // fenced code language
     "MD060": false  // table column style
-  }
+  },
+  // The PR template is pre-filled PR body text, not a document: it opens
+  // with "Closes #" on purpose, so MD041 (first line is a heading) does
+  // not apply to it.
+  "ignores": [".github/pull_request_template.md"]
 }
