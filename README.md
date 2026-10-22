@@ -15,7 +15,7 @@ updates for years to come.
 
 ## Table of Contents
 
-- [⚠️ Compatibility Notice](#-compatibility-notice)
+- [⚠️ Compatibility Notice](#️-compatibility-notice)
 - [Why This Repository Exists](#why-this-repository-exists)
 - [Understanding the Problem Before You Start](#understanding-the-problem-before-you-start)
   - [The Netinst Trap](#the-netinst-trap)
@@ -55,7 +55,7 @@ updates for years to come.
   - [sudo Not Found](#sudo-not-found)
   - [dpkg-dev Depends on xz-utils Error](#dpkg-dev-depends-on-xz-utils-error)
   - [Interface Name Is Not wlp3s0](#interface-name-is-not-wlp3s0)
-  - [wpa_supplicant Fails to Connect](#wpasupplicant-fails-to-connect)
+  - [wpa_supplicant Fails to Connect](#wpa_supplicant-fails-to-connect)
   - [My MacBook Has a Non-Broadcom WiFi Chip](#my-macbook-has-a-non-broadcom-wifi-chip)
 - [The Broader Context](#the-broader-context)
 - [Contributing](#contributing)
