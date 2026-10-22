@@ -1,0 +1,27 @@
+name: Incident
+description: Something broke in use; record it so the pattern is findable later
+title: "fix(<scope>): incident YYYY-MM-DD "
+labels: [incident]
+body:
+  - type: textarea
+    id: impact
+    attributes:
+      label: Impact
+      description: What stopped working, for how long.
+    validations:
+      required: true
+  - type: textarea
+    id: timeline
+    attributes:
+      label: Timeline and evidence
+      description: Redact hostnames, IPs, emails and tokens.
+      render: text
+  - type: textarea
+    id: cause
+    attributes:
+      label: Cause (if known) and past patterns it matches
+  - type: input
+    id: writeup
+    attributes:
+      label: Write-up in the repo
+      description: Path to the incident doc, once it exists. The doc is the durable record; this issue tracks the work.
