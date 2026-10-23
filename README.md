@@ -603,10 +603,10 @@ Now run the post-installation script to set up your full desktop
 environment and all MacBook hardware:
 
 ```
-bash <(curl -s https://raw.githubusercontent.com/willardcsoriano/debian-intel-macbook-post-install/v1.9.1/setup.sh)
+bash <(curl -s https://raw.githubusercontent.com/willardcsoriano/debian-intel-macbook-post-install/v1.10.0/setup.sh)
 ```
 
-This runs the v1.9.1 release. The post-install repo's
+This runs the v1.10.0 release. The post-install repo's
 [Quick Start](https://github.com/willardcsoriano/debian-intel-macbook-post-install#quick-start)
 always has the command for the latest release.
 
