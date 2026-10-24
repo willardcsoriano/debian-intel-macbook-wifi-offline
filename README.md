@@ -81,7 +81,7 @@ carry the same package set:
 |---|---|
 | **Internet Archive** (recommended) | https://archive.org/details/debian-trixie-macbook-broadcom-wifi-offline |
 | **Hugging Face** | https://huggingface.co/buckets/unicornfacemask/debian-trixie-macbook-broadcom-wifi-offline-packages |
-| **Zenodo** (DOI) | https://zenodo.org/records/19414495 |
+| **Zenodo** (DOI) | https://doi.org/10.5281/zenodo.19414112 |
 
 Put every `.deb` in one flat folder on the USB stick, with no subfolders.
 The install step uses a `*.deb` wildcard.
@@ -266,5 +266,6 @@ result.
 
 ## Citation
 
-Cite the Zenodo archive, which carries a permanent DOI:
-https://zenodo.org/records/19414113
+Cite the Zenodo archive by its concept DOI, which always resolves to the
+latest version:
+https://doi.org/10.5281/zenodo.19414112
