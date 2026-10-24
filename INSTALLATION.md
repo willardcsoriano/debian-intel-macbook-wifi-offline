@@ -6,6 +6,35 @@ Before following this guide, download the offline package collection from the ma
 
 ---
 
+## Table of Contents
+
+- [How the Hybrid USB Works](#how-the-hybrid-usb-works)
+- [Phase 1 — Prepare the Hybrid USB](#phase-1--prepare-the-hybrid-usb)
+  - [1. Download the Debian Installer ISO](#1-download-the-debian-installer-iso)
+  - [2. Flash the ISO to Your USB Stick](#2-flash-the-iso-to-your-usb-stick)
+  - [3. Create the Driver Partition (Windows)](#3-create-the-driver-partition-windows)
+  - [3. Create the Driver Partition (macOS)](#3-create-the-driver-partition-macos)
+  - [3. Create the Driver Partition (Linux)](#3-create-the-driver-partition-linux)
+  - [4. Copy the Packages to the DRIVERS Partition](#4-copy-the-packages-to-the-drivers-partition)
+- [Phase 2 — Boot the MacBook Air from USB](#phase-2--boot-the-macbook-air-from-usb)
+- [Phase 3 — The Debian Installer](#phase-3--the-debian-installer)
+  - [Language and Location](#language-and-location)
+  - [Network Configuration](#network-configuration)
+  - [Users and Passwords](#users-and-passwords)
+  - [Disk Partitioning](#disk-partitioning)
+  - [Base System Installation](#base-system-installation)
+  - [Software Selection](#software-selection)
+  - [GRUB Bootloader](#grub-bootloader)
+  - [Finishing the Installation](#finishing-the-installation)
+- [Phase 4 — First Login and Driver Installation](#phase-4--first-login-and-driver-installation)
+- [Troubleshooting](#troubleshooting)
+  - [Mac Does Not Boot from USB](#mac-does-not-boot-from-usb)
+  - [Installer Gets Stuck on Network Configuration](#installer-gets-stuck-on-network-configuration)
+  - [No EFI Boot Option Visible](#no-efi-boot-option-visible)
+  - [DRIVERS Partition Not Visible After Booting into Debian](#drivers-partition-not-visible-after-booting-into-debian)
+  - [Installer Asks for a Network Mirror Repeatedly](#installer-asks-for-a-network-mirror-repeatedly)
+- [Summary](#summary)
+
 ## How the Hybrid USB Works
 
 Flashing a Debian ISO onto a USB stick with a tool like BalenaEtcher creates a read-only installer partition that fills only a small portion of the drive. The rest of the space is left as unallocated. This guide takes advantage of that unallocated space by creating a second writable partition — called `DRIVERS` — where the offline `.deb` packages live alongside the installer on the same physical stick.
@@ -20,13 +49,13 @@ This phase can be completed on any machine with internet access — Windows, mac
 
 ### 1. Download the Debian Installer ISO
 
-Go to the official Debian website and download the netinst ISO:
+Download the Debian **13.4.0** netinst ISO from Debian's archive:
 
 ```
-https://www.debian.org/download
+https://cdimage.debian.org/cdimage/archive/13.4.0/amd64/iso-cd/debian-13.4.0-amd64-netinst.iso
 ```
 
-You want the file named `debian-XX-amd64-netinst.iso` where XX is the current Trixie version number. The netinst image is small (around 600MB) and contains only what is needed to boot the installer — the rest is normally fetched from the internet, but this guide bypasses that entirely.
+Use exactly this version, not the latest one from `https://www.debian.org/download`. The offline packages are pinned to 13.4.0's kernel (`6.12.73+deb13-amd64`) and libraries, and any other point release installs a kernel the driver cannot build against. The README's [Why 13.4.0 Exactly](README.md#why-1340-exactly) section explains this. The image is about 790 MB and contains what the installer needs to boot. The rest is normally fetched from the internet, but this guide skips that step.
 
 ### 2. Flash the ISO to Your USB Stick
 
